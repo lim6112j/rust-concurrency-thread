@@ -1,0 +1,15 @@
+[package]
+name = "rust-concurrency-request"
+version = "0.1.0"
+authors = ["teki.sei <teki.sei@uzabase.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+reqwest = "0.9.20"
+tokio-threadpool = "0.1.15"
+futures01 = "0.1.28"
+futures-preview = { version = "0.3.0-alpha.18", features = ["io-compat"] }
+failure = "0.1.5"
+tokio = "1.22.0"
