@@ -25,8 +25,11 @@ const URL: &str = "http://localhost:8000";
 
 fn main() {
     let args: Vec<String> = env::args().collect();
+    let mut target = 1;
+    if args.len() > 1 {
     dbg!(&args[1]);
-    let target = args[1].parse().unwrap();
+    target = args[1].parse().unwrap();
+    }
     match target {
         1 => request_with_multi_thread(),
         2 => block_on(request_with_async_await()), // this is not a parallel request example
@@ -65,12 +68,12 @@ fn request_with_multi_thread() {
     let start_at = SystemTime::now();
 
     let client = AsyncClient::new();
-    let thread_pool_size = 2;
+    let thread_pool_size = 10;
     let thread_pool = Builder::new().pool_size(thread_pool_size).build();
 
     let mut handles = Vec::<SpawnHandle<(ThreadId, String), ErrorWrapper>>::new();
     let mut idx = 0;
-    while handles.iter().count() <= 100 {
+    while handles.iter().count() <= 500 {
         let cloned_client = client.clone();
         handles.push(thread_pool.spawn_handle(future::lazy(move || {
             send_request_for_future(&cloned_client, idx)
